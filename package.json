@@ -1,0 +1,19 @@
+{
+  "name": "lilagames-tictactoe-server",
+  "version": "1.0.0",
+  "description": "Nakama TypeScript server module for Lila Games tic-tac-toe",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nakama-runtime": "github:heroiclabs/nakama-common"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  }
+}
