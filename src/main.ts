@@ -562,7 +562,7 @@ function matchLeave(
   tick: number,
   state: GameState,
   presences: nkruntime.Presence[]
-): { state: GameState } {
+): { state: GameState } | null {
   const leaving = new Set(presences.map((p) => p.userId));
   const pairs = state.playerIds.map((id, i) => ({
     id,
@@ -628,6 +628,9 @@ function matchLeave(
 
   logInfo(logger, `Players left: ${presences.length}, remaining: ${ids.length}`);
   broadcastState(dispatcher, next);
+  if (ids.length === 0) {
+    return null;
+  }
   return { state: next };
 }
 
@@ -639,8 +642,12 @@ function matchLoop(
   tick: number,
   state: GameState,
   messages: nkruntime.MatchMessage[]
-): { state: GameState } {
+): { state: GameState } | null {
   let next = cloneGameState(state);
+
+  if (next.phase === "finished" && next.playerIds.length === 0) {
+    return null;
+  }
 
   for (const msg of messages) {
     if (msg.opCode === OP_REQUEST_SYNC) {
